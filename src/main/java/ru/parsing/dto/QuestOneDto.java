@@ -13,6 +13,7 @@ import java.io.Serializable;
 @XmlRootElement(name = "Quest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QuestOneDto implements Serializable {
+    String s = (char) 27 + "[32m";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +35,7 @@ public class QuestOneDto implements Serializable {
     private String necessary;
 
     public String getNecessary() {
-        return "Для квеста : " + name +
+        return s + "Для квеста : " + name +
                 " тебе необходимо : {" + goal + "\n" +
                 "в награду ты получишь : " + reward + "\n" +
                 "для выполнения квеста сделай следующее : " + complete + "\n" +

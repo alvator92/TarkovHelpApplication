@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class QuestsDto implements Serializable {
-    @XmlElement(name = "Quest")
+    @XmlElement(name = "Quests")
     private List<QuestOneDto> quest;
 
     public List<QuestOneDto> getQuest() {
@@ -14,7 +14,7 @@ public class QuestsDto implements Serializable {
 
     @Override
     public String toString() {
-        return "To Complete Quest you need : {" +
+        return "Quests : {" +
         quest + "}";
     }
 }
