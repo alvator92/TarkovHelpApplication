@@ -1,15 +1,15 @@
 package ru.parsing.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Data;
+
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 @Entity
+@Data
 @XmlRootElement(name = "Quest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QuestDtoOnce implements Serializable {
