@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Entity
 @XmlRootElement(name = "Quest")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class QuestOneDto implements Serializable {
+public class QuestDtoOnce implements Serializable {
     String s = (char) 27 + "[32m";
 
     @Id

@@ -6,9 +6,9 @@ import java.util.List;
 
 public class QuestsDto implements Serializable {
     @XmlElement(name = "Quests")
-    private List<QuestOneDto> quest;
+    private List<QuestDtoOnce> quest;
 
-    public List<QuestOneDto> getQuest() {
+    public List<QuestDtoOnce> getQuest() {
         return quest;
     }
 
