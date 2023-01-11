@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 @Entity
 @Data
+@Table(name = "tarkovdb", schema = "public")
 @XmlRootElement(name = "Quest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QuestDtoOnce implements Serializable {
@@ -17,21 +18,26 @@ public class QuestDtoOnce implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private int id;
 
     @XmlElement(name = "Name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @XmlElement(name = "Goal")
+    @Column(name = "goal", nullable = false)
     private String goal;
 
     @XmlElement(name = "Reward")
+    @Column(name = "reward", nullable = false)
     private String reward;
 
     @XmlElement(name = "Complete")
+    @Column(name = "complete", nullable = false)
     private String complete;
 
     @XmlElement(name = "NecessaryItem")
+    @Column(name = "necessary", nullable = false)
     private String necessary;
 
     public String getNecessary() {
