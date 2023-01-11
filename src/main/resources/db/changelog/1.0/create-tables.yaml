@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1623004979170-1
+      author: Alvator
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: false
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: goal
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: reward
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: complete
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: necessary
+                  type: VARCHAR(255)
+            tableName: quest
