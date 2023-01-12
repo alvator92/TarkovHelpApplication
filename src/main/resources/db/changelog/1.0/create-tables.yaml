@@ -23,7 +23,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: reward
+                  name: award
                   type: VARCHAR(255)
               - column:
                   constraints:
@@ -34,5 +34,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   name: necessary
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: url
                   type: VARCHAR(255)
             tableName: quest

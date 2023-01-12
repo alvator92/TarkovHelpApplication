@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import ru.parsing.configuration.DataBaseConfiguration;
+import ru.parsing.dto.QuestDtoOnce;
+import ru.parsing.service.QuestClient;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication
@@ -22,28 +26,22 @@ public class TarkovHelpApplication {
 
     public static void main (String... args) {
         SpringApplication.run(TarkovHelpApplication.class, args);
+        List<QuestClient> lists = new ArrayList<>();
+        QuestClient questClient = new QuestClient();
+        questClient.getQuestParam("Оружейник. Часть 14", "/ru/quest/oruzhejnik-chast-14");
+
         try {
-            var document = Jsoup.connect("https://tarkov.help/ru/quest/oruzhejnik-chast-3").get();
+            var document = Jsoup.connect("https://tarkov.help/ru/trader/mechanic/quests").get();
 
-            var titleElements = document.select(".quest-description");
-            System.out.println(titleElements.text());
-
-            var titleElements2 = document.select(".quest-tab-grid");
-            System.out.println(titleElements2.text());
-
-            var titleElements3 = document.select(".quest-text-award");
-            System.out.println(titleElements3.text());
-
-            var titleElements4 = document.select(".quest-guide");
-            System.out.println(titleElements4.text());
-
-            var titleElements5 = document.select(".bb-block .bb-table, .quest-page .bb-table");
-            System.out.println(titleElements5.select(".item-name").text());
-
+            var titleElements = document.select(".article__title");
+            titleElements.forEach(titleElement ->
+                    System.out.println(titleElement.text() + " | " + titleElement.attr("href")));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(questClient);
+
 
     }
 
