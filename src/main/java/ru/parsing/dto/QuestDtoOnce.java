@@ -10,41 +10,41 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 @Entity
 @Data
-@Table(name = "tarkovdb", schema = "public")
+@Table(name = "quest", schema = "public")
 @XmlRootElement(name = "Quest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QuestDtoOnce implements Serializable {
-    String s = (char) 27 + "[32m";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private int id;
 
     @XmlElement(name = "Name")
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @XmlElement(name = "Goal")
-    @Column(name = "goal", nullable = false)
+    @Column(name = "goal")
     private String goal;
 
     @XmlElement(name = "Award")
-    @Column(name = "award", nullable = false)
+    @Column(name = "award", nullable = true)
     private String award;
 
     @XmlElement(name = "Complete")
-    @Column(name = "complete", nullable = false)
+    @Column(name = "complete")
     private String complete;
 
     @XmlElement(name = "NecessaryItem")
-    @Column(name = "necessary", nullable = false)
+    @Column(name = "necessary")
     private String necessary;
 
-    @Column(name = "url", nullable = false)
+    @Column(name = "url")
     private String url;
 
     public String toString() {
-        return s + "Для квеста : " + name +
+        return "Для квеста : " + name +
                 " тебе необходимо : {" + goal + "\n" +
                 "в награду ты получишь : " + award + "\n" +
                 "для выполнения квеста сделай следующее : " + complete + "\n" +

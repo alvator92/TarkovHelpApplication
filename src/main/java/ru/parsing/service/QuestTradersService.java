@@ -1,9 +1,12 @@
 package ru.parsing.service;
 
 import org.jsoup.Jsoup;
+import org.springframework.stereotype.Service;
+
 import java.util.Map;
 
-public class TradersQuests {
+@Service
+public class QuestTradersService {
     public Map<String, String> getListOfQuests(String traderName) {
         StringBuilder sb = new StringBuilder();
         try {
