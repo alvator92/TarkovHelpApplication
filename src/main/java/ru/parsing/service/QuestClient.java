@@ -17,8 +17,11 @@ public class QuestClient {
             quest.setName(questName);
             var document = Jsoup.connect( s.toString()).get();
 
-            var titleElements = document.select(".quest-description");
-            quest.setName(titleElements.text());
+            var titleElements = document.select(".quest-heading");
+            quest.setDescription(titleElements.text());
+
+            var titleElements1 = document.select(".quest-description");
+            quest.setDescription(titleElements1.text());
 
             var titleElements2 = document.select(".quest-tab-grid");
             quest.setGoal(titleElements2.text());

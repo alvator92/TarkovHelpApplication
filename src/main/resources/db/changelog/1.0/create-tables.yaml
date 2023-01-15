@@ -18,6 +18,11 @@ databaseChangeLog:
                   name: name
                   type: TEXT
               - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: TEXT
+              - column:
                   name: goal
                   type: TEXT
               - column:

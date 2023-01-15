@@ -24,6 +24,10 @@ public class QuestDtoOnce implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @XmlElement(name = "Description")
+    @Column(name = "description")
+    private String description;
+
     @XmlElement(name = "Goal")
     @Column(name = "goal")
     private String goal;

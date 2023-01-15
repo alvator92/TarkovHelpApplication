@@ -1,6 +1,5 @@
 package ru.parsing;
 
-import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,16 +24,6 @@ public class TarkovHelpApplication {
         QuestClient questClient = new QuestClient();
         questClient.getQuestParam("Оружейник. Часть 14", "/ru/quest/oruzhejnik-chast-14");
 
-        try {
-            var document = Jsoup.connect("https://tarkov.help/ru/trader/mechanic/quests").get();
-
-            var titleElements = document.select(".article__title");
-            titleElements.forEach(titleElement ->
-                    System.out.println(titleElement.text() + " | " + titleElement.attr("href")));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         System.out.println(questClient);
 
 
