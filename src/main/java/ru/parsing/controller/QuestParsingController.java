@@ -26,4 +26,15 @@ public class QuestParsingController {
         questController.saveQuestToDB(new QuestClient().getQuestParam(questName, questUrl));
         return new ResponseEntity<>("HttpStatus.OK",httpHeaders, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/save/all")
+    ResponseEntity<String> Response(@RequestParam(value = "traderName") String traderName) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-type","application/json; charset=utf-8");
+        System.out.println(traderName);
+
+        questController.saveAllQuestToDB(traderName);
+
+        return new ResponseEntity<>("HttpStatus.OK",httpHeaders, HttpStatus.OK);
+    }
 }

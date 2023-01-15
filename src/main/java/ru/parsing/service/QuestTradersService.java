@@ -1,13 +1,17 @@
 package ru.parsing.service;
 
+import lombok.Data;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Data
 public class QuestTradersService {
-    public Map<String, String> getListOfQuests(String traderName) {
+    private HashMap<String, String> quests = new HashMap<>();
+    public HashMap<String, String> getListOfQuests(String traderName) {
         StringBuilder sb = new StringBuilder();
         try {
             sb.append("https://tarkov.help/ru/trader/");
@@ -18,13 +22,13 @@ public class QuestTradersService {
 
             var titleElements = document.select(".article__title");
             titleElements.forEach(titleElement ->
-                    System.out.println(titleElement.text() + " | " + titleElement.attr("href")));
+                    quests.put(titleElement.text(),titleElement.attr("href")));
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
+        return quests;
     }
 }

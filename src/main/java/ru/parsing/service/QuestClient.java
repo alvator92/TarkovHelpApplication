@@ -11,7 +11,7 @@ public class QuestClient {
     public QuestDtoOnce getQuestParam(String questName, String questUrl) {
         try {
             StringBuilder s = new StringBuilder();
-            s.append("https://tarkov.help/");
+            s.append("https://tarkov.help");
             s.append(questUrl);
             System.out.println(s);
             quest.setName(questName);
