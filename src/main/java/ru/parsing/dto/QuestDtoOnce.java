@@ -48,10 +48,49 @@ public class QuestDtoOnce implements Serializable {
     private String url;
 
     public String toString() {
-        return "Для квеста : " + name +
+        return "Для квеста : " + name + "\n" +
                 " тебе необходимо : {" + goal + "\n" +
                 "в награду ты получишь : " + award + "\n" +
                 "для выполнения квеста сделай следующее : " + complete + "\n" +
                 "тебе пригодится : " + necessary + "}";
+     }
+
+     public static class Builder {
+        private QuestDtoOnce quest;
+        public Builder() {
+            quest = new QuestDtoOnce();
+        }
+        public Builder withId(int var) {
+            quest.id = var;
+            return this;
+        }
+        public Builder withName(String var) {
+            quest.name = var;
+            return this;
+        }
+        public Builder withDescription(String var) {
+            quest.description = var;
+            return this;
+        }
+        public Builder withGoal(String var) {
+            quest.goal = var;
+            return this;
+        }
+        public Builder withAward(String var) {
+            quest.award = var;
+            return this;
+        }
+        public Builder withComplete(String var) {
+            quest.complete = var;
+            return this;
+        }
+        public Builder withNecessary(String var) {
+            quest.necessary = var;
+            return this;
+        }
+        public Builder withUrl(String var) {
+            quest.url = var;
+            return this;
+        }
      }
 }
