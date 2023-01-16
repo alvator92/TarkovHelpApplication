@@ -6,4 +6,6 @@ import ru.parsing.dto.QuestDtoOnce;
 public interface QuestServices {
     @Transactional
     void save(QuestDtoOnce quest);
+
+    QuestDtoOnce findByName(String name);
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.parsing.dto.QuestDtoOnce;
 import ru.parsing.service.QuestClient;
 import ru.parsing.service.QuestController;
 
@@ -36,5 +37,15 @@ public class QuestParsingController {
         questController.saveAllQuestToDB(traderName);
 
         return new ResponseEntity<>("HttpStatus.OK",httpHeaders, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/find")
+    ResponseEntity<String> findQuestByName(@RequestParam(value = "questName") String name) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-type","application/json; charset=utf-8");
+        System.out.println(name);
+        QuestDtoOnce quest = questController.findQuestByName(name);
+
+        return new ResponseEntity<>(quest.toString(),httpHeaders, HttpStatus.OK);
     }
 }

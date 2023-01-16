@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.parsing.configuration.JpaConfig;
 import ru.parsing.dto.QuestDtoOnce;
-import ru.parsing.repository.QuestEntityRepository;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,5 +23,9 @@ public class QuestController {
             config.questService().save(new QuestClient().getQuestParam(entry.getKey(), entry.getValue()));
 
         }
+    }
+
+    public QuestDtoOnce findQuestByName(String name) {
+        return config.questService().findByName(name);
     }
 }
