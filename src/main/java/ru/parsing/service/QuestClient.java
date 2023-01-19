@@ -1,10 +1,8 @@
 package ru.parsing.service;
 
 import org.jsoup.Jsoup;
-import org.springframework.stereotype.Service;
 import ru.parsing.dto.QuestDtoOnce;
 
-@Service
 public class QuestClient {
     private QuestDtoOnce quest = new QuestDtoOnce();
 
@@ -33,7 +31,11 @@ public class QuestClient {
             quest.setComplete(titleElements4.text());
 
             var titleElements5 = document.select(".bb-block .bb-table, .quest-page .bb-table");
-            quest.setNecessary(titleElements5.select(".item-name").text());
+            if (!titleElements5.isEmpty()) {
+                quest.setNecessary(titleElements5.select(".item-name").text());
+            }else {
+                quest.setNecessary("Придётся побегать");
+            }
 
             quest.setUrl(questUrl);
             System.out.println(quest);

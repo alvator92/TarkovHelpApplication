@@ -48,11 +48,12 @@ public class QuestDtoOnce implements Serializable {
     private String url;
 
     public String toString() {
-        return "Для квеста : " + name + "\n" +
-                " тебе необходимо : {" + goal + "\n" +
-                "в награду ты получишь : " + award + "\n" +
-                "для выполнения квеста сделай следующее : " + complete + "\n" +
-                "тебе пригодится : " + necessary + "}";
+        return "ДЛЯ_КВЕСТА : " + name + "\n" +
+                "ОПИСАНИЕ_КВЕСТА : " + description + "\n" +
+                "НЕОБХОДИМО : " + goal + "\n" +
+                "В_НАГРАДУ : " + award + "\n" +
+                "ДЛЯ_ВЫПОЛНЕНИЯ_НАДО : " + complete + "\n" +
+                "ТЕБЕ_ПРИГОДИТСЯ : " + necessary + "}";
      }
 
      public static class Builder {

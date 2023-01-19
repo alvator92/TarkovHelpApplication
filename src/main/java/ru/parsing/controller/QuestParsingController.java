@@ -32,9 +32,8 @@ public class QuestParsingController {
     ResponseEntity<String> Response(@RequestParam(value = "traderName") String traderName) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-type","application/json; charset=utf-8");
-        System.out.println(traderName);
 
-        questController.saveAllQuestToDB(traderName);
+        questController.saveAllQuestToDB();
 
         return new ResponseEntity<>("HttpStatus.OK",httpHeaders, HttpStatus.OK);
     }
