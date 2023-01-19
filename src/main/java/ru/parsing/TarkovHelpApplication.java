@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import ru.parsing.configuration.DataBaseConfiguration;
 import ru.parsing.service.QuestClient;
+import ru.parsing.service.QuestIcon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,8 @@ public class TarkovHelpApplication {
     public static void main (String... args) {
         SpringApplication.run(TarkovHelpApplication.class, args);
         List<QuestClient> lists = new ArrayList<>();
-        QuestClient questClient = new QuestClient();
-        questClient.getQuestParam("Оружейник. Часть 14", "/ru/quest/oruzhejnik-chast-14");
-
-        System.out.println(questClient);
+        QuestIcon questIcon = new QuestIcon();
+        questIcon.getImage("Мокрое дело. Часть 3", "/ru/quest/mokroe-delo-chast-3");
 
 
     }
