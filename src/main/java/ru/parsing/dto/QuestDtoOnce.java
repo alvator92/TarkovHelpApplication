@@ -8,12 +8,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.Set;
+
 @Entity
 @Data
-@Table(name = "quest", schema = "public")
+@Table(name = "quests", schema = "public")
 @XmlRootElement(name = "Quest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QuestDtoOnce implements Serializable {
+
+    @OneToMany(mappedBy = "quests")
+    private Set<Photos> photos;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +51,9 @@ public class QuestDtoOnce implements Serializable {
 
     @Column(name = "url")
     private String url;
+
+    @Column(name = "quest_id")
+    private String quest_id;
 
     public String toString() {
         return "ДЛЯ_КВЕСТА : " + name + "\n" +

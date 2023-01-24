@@ -21,9 +21,9 @@ public class TarkovHelpApplication {
 
     public static void main (String... args) {
         SpringApplication.run(TarkovHelpApplication.class, args);
-        List<QuestClient> lists = new ArrayList<>();
         QuestIcon questIcon = new QuestIcon();
         questIcon.getImage("Мокрое дело. Часть 3", "/ru/quest/mokroe-delo-chast-3");
+
 
 
     }

@@ -45,4 +45,51 @@ databaseChangeLog:
                     nullable: false
                   name: url
                   type: TEXT
-            tableName: quest
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                  name: quest_id
+                  type: TEXT
+            tableName: quests
+        - createIndex:
+            columns:
+              - column:
+                  name: quest_id
+            indexName: FK_quest_id
+            tableName: quests
+  - changeSet:
+      id: 1623004979170-3
+      author: Alvator
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quest_id
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: photo
+                  type: TEXT
+            tableName: photos
+        - addForeignKeyConstraint:
+            baseColumnNames: quest_id
+            baseTableName: photos
+            constraintName: FK_quest_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedColumnNames: quest_id
+            referencedTableName: quests
+            validate: true
