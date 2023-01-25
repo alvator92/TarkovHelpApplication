@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.parsing.dto.Photos;
 import ru.parsing.dto.QuestDtoOnce;
 import ru.parsing.service.QuestClient;
 import ru.parsing.service.QuestController;
+import ru.parsing.service.QuestIcon;
 
 @RestController
 public class QuestParsingController {
@@ -24,8 +26,12 @@ public class QuestParsingController {
         System.out.println(questName);
         System.out.println(questUrl);
 
-        questController.saveQuestToDB(new QuestClient().getQuestParam(questName, questUrl));
-        return new ResponseEntity<>("HttpStatus.OK",httpHeaders, HttpStatus.OK);
+        QuestDtoOnce questDtoOnce = new QuestClient().getQuestParam(questName, questUrl);
+        questController.saveQuestToDB(questDtoOnce);
+
+        Photos photos = new QuestIcon().getImage(questDtoOnce);
+        questController.saveImagesToDB(photos);
+        return new ResponseEntity<>(questDtoOnce.toString(),httpHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/save/all")

@@ -4,10 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.parsing.dto.Photos;
+import ru.parsing.dto.QuestDtoOnce;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 
@@ -15,13 +14,14 @@ import java.net.URL;
 public class QuestIcon {
 
     private static String IMAGE_DESTINATION_FOLDER = "C:/Users/Public/Pictures";
+    private Photos photos = new Photos();
 
-    public void getImage(String questName, String questUrl) {
+    public Photos getImage(QuestDtoOnce questDtoOnce) {
         try {
             StringBuilder s = new StringBuilder();
             s.append("https://tarkov.help");
-            s.append(questUrl);
-            log.info(s.toString());
+            s.append(questDtoOnce.getUrl());
+            log.info(questDtoOnce.getName() + " : " + s);
             var doc = Jsoup
                     .connect(s.toString())
                     .timeout(10*1000)
@@ -38,6 +38,8 @@ public class QuestIcon {
                 log.info("");
                 //make sure to get the absolute URL using abs: prefix
                 String strImageURL = image.attr("abs:src");
+                photos.setPhoto(strImageURL);
+                photos.setQuest(questDtoOnce);
 
                 //download image one by one
                 downloadImage(strImageURL);
@@ -45,7 +47,8 @@ public class QuestIcon {
 
         } catch(IOException e) {
             e.printStackTrace();
-        }
+        };
+        return photos;
     }
 
     private static void downloadImage(String strImageURL){

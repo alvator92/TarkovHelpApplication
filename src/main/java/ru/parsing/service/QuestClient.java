@@ -1,6 +1,7 @@
 package ru.parsing.service;
 
 import org.jsoup.Jsoup;
+import ru.parsing.common.Common;
 import ru.parsing.dto.QuestDtoOnce;
 
 public class QuestClient {
@@ -37,7 +38,10 @@ public class QuestClient {
                 quest.setNecessary("Придётся побегать");
             }
 
+            // ссылка на квест
             quest.setUrl(questUrl);
+            // связь с таблицей photos
+            quest.setQuest_id(Common.getRandomString(12));
             System.out.println(quest);
 
         } catch (Exception e) {

@@ -75,7 +75,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   name: quest_id
-                  type: TEXT
+                  type: INT
               - column:
                   constraints:
                     nullable: false
@@ -90,6 +90,6 @@ databaseChangeLog:
             initiallyDeferred: false
             onDelete: RESTRICT
             onUpdate: RESTRICT
-            referencedColumnNames: quest_id
+            referencedColumnNames: id
             referencedTableName: quests
             validate: true

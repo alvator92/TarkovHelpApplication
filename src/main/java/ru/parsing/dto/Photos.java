@@ -3,7 +3,6 @@ package ru.parsing.dto;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
 
 @Entity
 @Data
