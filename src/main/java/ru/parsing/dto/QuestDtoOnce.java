@@ -17,9 +17,6 @@ import java.util.Set;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QuestDtoOnce implements Serializable {
 
-    @OneToMany(mappedBy = "quests")
-    private Set<Photos> photos;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -54,6 +51,10 @@ public class QuestDtoOnce implements Serializable {
 
     @Column(name = "quest_id")
     private String quest_id;
+
+    @OneToMany(mappedBy = "quest")
+    private Set<Photos> photos;
+
 
     public String toString() {
         return "ДЛЯ_КВЕСТА : " + name + "\n" +

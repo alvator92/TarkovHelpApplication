@@ -14,10 +14,11 @@ public class Photos {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "quest_id")
-    private String quest_id;
-
     @Column(name = "photo")
     private String photo;
+
+    @ManyToOne
+    @JoinColumn(name = "quest_id")
+    private QuestDtoOnce quest;
 
 }
