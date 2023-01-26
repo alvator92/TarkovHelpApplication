@@ -4,19 +4,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.parsing.dto.Photos;
+import ru.parsing.dto.Images;
 import ru.parsing.dto.QuestDtoOnce;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
-public class QuestIcon {
+public class QuestImages {
 
     private static String IMAGE_DESTINATION_FOLDER = "C:/Users/Public/Pictures";
-    private Photos photos = new Photos();
+    private List<Images> list = new ArrayList<>();
 
-    public Photos getImage(QuestDtoOnce questDtoOnce) {
+    public List<Images> getImage(QuestDtoOnce questDtoOnce) {
         try {
             StringBuilder s = new StringBuilder();
             s.append("https://tarkov.help");
@@ -38,8 +40,11 @@ public class QuestIcon {
                 log.info("");
                 //make sure to get the absolute URL using abs: prefix
                 String strImageURL = image.attr("abs:src");
-                photos.setPhoto(strImageURL);
-                photos.setQuest(questDtoOnce);
+                Images photo = new Images.Builder()
+                        .withPhoto(strImageURL)
+                        .withQuest(questDtoOnce)
+                        .build();
+                list.add(photo);
 
                 //download image one by one
                 downloadImage(strImageURL);
@@ -48,7 +53,7 @@ public class QuestIcon {
         } catch(IOException e) {
             e.printStackTrace();
         };
-        return photos;
+        return list;
     }
 
     private static void downloadImage(String strImageURL){

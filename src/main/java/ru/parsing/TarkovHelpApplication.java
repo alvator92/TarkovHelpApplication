@@ -5,11 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import ru.parsing.configuration.DataBaseConfiguration;
-import ru.parsing.service.QuestClient;
-import ru.parsing.service.QuestIcon;
-
-import java.util.ArrayList;
-import java.util.List;
+import ru.parsing.service.QuestImages;
 
 @SpringBootApplication
 public class TarkovHelpApplication {
@@ -21,7 +17,7 @@ public class TarkovHelpApplication {
 
     public static void main (String... args) {
         SpringApplication.run(TarkovHelpApplication.class, args);
-        QuestIcon questIcon = new QuestIcon();
+        QuestImages questImages = new QuestImages();
 //        questIcon.getImage();
 
 

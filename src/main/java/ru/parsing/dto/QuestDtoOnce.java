@@ -53,7 +53,7 @@ public class QuestDtoOnce implements Serializable {
     private String quest_id;
 
     @OneToMany(mappedBy = "quest")
-    private Set<Photos> photos;
+    private Set<Images> photos;
 
 
     public String toString() {
