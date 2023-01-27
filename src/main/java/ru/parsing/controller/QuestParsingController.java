@@ -21,20 +21,13 @@ public class QuestParsingController {
     private QuestController questController;
 
     @RequestMapping(value = "/save")
-    ResponseEntity<String> Response(@RequestParam(value = "questName") String questName,
+    ResponseEntity<QuestDtoOnce> Response(@RequestParam(value = "questName") String questName,
                                     @RequestParam(value = "questUrl") String questUrl) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-type","application/json; charset=utf-8");
         System.out.println(questName);
         System.out.println(questUrl);
-
-        QuestDtoOnce questDtoOnce = new QuestClient().getQuestParam(questName, questUrl);
-        questController.saveQuestToDB(questDtoOnce);
-
-        List<Images> photos = new QuestImages().getImage(questDtoOnce);
-        photos.forEach(photo -> questController.saveImagesToDB(photo));
-
-        return new ResponseEntity<>(questDtoOnce.toString(),httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(questController.saveNewQuest(questName, questUrl),httpHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/save/all")

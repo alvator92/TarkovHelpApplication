@@ -8,6 +8,7 @@ import ru.parsing.dto.QuestDtoOnce;
 import ru.parsing.emun.TradersEnum;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -15,6 +16,14 @@ public class QuestController {
     @Autowired
     private JpaConfig config;
 
+    public QuestDtoOnce saveNewQuest(String questName, String questUrl) {
+        QuestDtoOnce questDtoOnce = new QuestClient().getQuestParam(questName, questUrl);
+        saveQuestToDB(questDtoOnce);
+
+        List<Images> photos = new QuestImages().getImage(questDtoOnce);
+        photos.forEach(photo -> saveImagesToDB(photo));
+        return questDtoOnce;
+    }
     public void saveQuestToDB(QuestDtoOnce questDtoOnce) {
         config.questService().save(questDtoOnce);
     }
@@ -28,7 +37,7 @@ public class QuestController {
             HashMap<String, String> quests = new QuestTradersService().
                     getListOfQuests(value.getName());
             for (Map.Entry<String, String> entry : quests.entrySet()) {
-                config.questService().save(new QuestClient().getQuestParam(entry.getKey(), entry.getValue()));
+                saveNewQuest(entry.getKey(), entry.getValue());
             }
         }
     }
