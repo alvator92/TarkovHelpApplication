@@ -1,5 +1,6 @@
 package ru.parsing.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,9 +16,9 @@ public class Images {
 
     @Column(name = "photo")
     private String photo;
-
-    @ManyToOne
-    @JoinColumn(name = "quest_id")
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "quest_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "FK_quest_id"))
     private QuestDtoOnce quest;
 
     public static class Builder {
@@ -42,4 +43,10 @@ public class Images {
         }
     }
 
+//    @Override
+//    public String toString() {
+//        return "Images{" +
+//                "id=" + id +
+//                ", photo='" + photo + '}';
+//    }
 }

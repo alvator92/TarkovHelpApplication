@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -50,20 +51,21 @@ public class QuestDtoOnce implements Serializable {
     private String url;
 
     @Column(name = "quest_id")
-    private String quest_id;
+    private int quest_id;
 
-    @OneToMany(mappedBy = "quest")
-    private Set<Images> photos;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "quest", fetch = FetchType.LAZY)
+    private List<Images> photos;
 
 
-    public String toString() {
-        return "ДЛЯ_КВЕСТА : " + name + "\n" +
-                "ОПИСАНИЕ_КВЕСТА : " + description + "\n" +
-                "НЕОБХОДИМО : " + goal + "\n" +
-                "В_НАГРАДУ : " + award + "\n" +
-                "ДЛЯ_ВЫПОЛНЕНИЯ_НАДО : " + complete + "\n" +
-                "ТЕБЕ_ПРИГОДИТСЯ : " + necessary + "}";
-     }
+//    public String toString() {
+//        return "ДЛЯ_КВЕСТА : " + name + "\n" +
+//                "ОПИСАНИЕ_КВЕСТА : " + description + "\n" +
+//                "НЕОБХОДИМО : " + goal + "\n" +
+//                "В_НАГРАДУ : " + award + "\n" +
+//                "ДЛЯ_ВЫПОЛНЕНИЯ_НАДО : " + complete + "\n" +
+//                "ТЕБЕ_ПРИГОДИТСЯ : " + necessary + "\n" +
+//                "СПИСОК_ИЗОБРАЖЕНИЙ : {" +  photos.stream().iterator().next().toString() + "}";
+//     }
 
      public static class Builder {
         private QuestDtoOnce quest;
@@ -101,6 +103,10 @@ public class QuestDtoOnce implements Serializable {
         public Builder withUrl(String var) {
             quest.url = var;
             return this;
+        }
+
+        public QuestDtoOnce build() {
+            return quest;
         }
      }
 }

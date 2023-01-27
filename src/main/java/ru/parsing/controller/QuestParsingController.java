@@ -48,12 +48,12 @@ public class QuestParsingController {
     }
 
     @RequestMapping(value = "/find")
-    ResponseEntity<String> findQuestByName(@RequestParam(value = "questName") String name) {
+    ResponseEntity<QuestDtoOnce> findQuestByName(@RequestParam(value = "questName") String name) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-type","application/json; charset=utf-8");
         System.out.println(name);
         QuestDtoOnce quest = questController.findQuestByName(name);
 
-        return new ResponseEntity<>(quest.toString(),httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(quest,httpHeaders, HttpStatus.OK);
     }
 }

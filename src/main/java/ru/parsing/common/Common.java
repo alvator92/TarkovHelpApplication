@@ -31,13 +31,13 @@ public class Common {
         return dateFormat.format(calendar.getTime());
     }
 
-    public static String getRandomNumber(int length) {
+    public static int getRandomNumber(int length) {
         String characters = "12345679";
         char[] text = new char[length];
         for(int i = 0; i < text.length; i ++) {
             text[i] = characters.charAt(random.nextInt(characters.length()));
         }
-        return new String(text);
+        return Integer.parseInt(String.valueOf(text));
     }
 
     public static String getRandomNumberMount(int length) {

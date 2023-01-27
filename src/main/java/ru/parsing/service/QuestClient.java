@@ -41,7 +41,7 @@ public class QuestClient {
             // ссылка на квест
             quest.setUrl(questUrl);
             // связь с таблицей photos
-            quest.setQuest_id(Common.getRandomString(12));
+            quest.setQuest_id(Common.getRandomNumber(5));
             System.out.println(quest);
 
         } catch (Exception e) {
