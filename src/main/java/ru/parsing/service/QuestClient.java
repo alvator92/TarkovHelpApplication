@@ -1,10 +1,9 @@
 package ru.parsing.service;
 
 import org.jsoup.Jsoup;
-import org.springframework.stereotype.Service;
+import ru.parsing.common.Common;
 import ru.parsing.dto.QuestDtoOnce;
 
-@Service
 public class QuestClient {
     private QuestDtoOnce quest = new QuestDtoOnce();
 
@@ -17,8 +16,11 @@ public class QuestClient {
             quest.setName(questName);
             var document = Jsoup.connect( s.toString()).get();
 
-            var titleElements = document.select(".quest-description");
-            quest.setName(titleElements.text());
+            var titleElements = document.select(".quest-heading");
+            quest.setDescription(titleElements.text());
+
+            var titleElements1 = document.select(".quest-description");
+            quest.setDescription(titleElements1.text());
 
             var titleElements2 = document.select(".quest-tab-grid");
             quest.setGoal(titleElements2.text());
@@ -30,9 +32,16 @@ public class QuestClient {
             quest.setComplete(titleElements4.text());
 
             var titleElements5 = document.select(".bb-block .bb-table, .quest-page .bb-table");
-            quest.setNecessary(titleElements5.select(".item-name").text());
+            if (!titleElements5.isEmpty()) {
+                quest.setNecessary(titleElements5.select(".item-name").text());
+            }else {
+                quest.setNecessary("Придётся побегать");
+            }
 
+            // ссылка на квест
             quest.setUrl(questUrl);
+            // связь с таблицей photos
+            quest.setQuest_id(Common.getRandomNumber(5));
             System.out.println(quest);
 
         } catch (Exception e) {

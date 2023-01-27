@@ -1,15 +1,11 @@
 package ru.parsing;
 
-import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import ru.parsing.configuration.DataBaseConfiguration;
-import ru.parsing.service.QuestClient;
-
-import java.util.ArrayList;
-import java.util.List;
+import ru.parsing.service.QuestImages;
 
 @SpringBootApplication
 public class TarkovHelpApplication {
@@ -21,21 +17,9 @@ public class TarkovHelpApplication {
 
     public static void main (String... args) {
         SpringApplication.run(TarkovHelpApplication.class, args);
-        List<QuestClient> lists = new ArrayList<>();
-        QuestClient questClient = new QuestClient();
-        questClient.getQuestParam("Оружейник. Часть 14", "/ru/quest/oruzhejnik-chast-14");
+        QuestImages questImages = new QuestImages();
+//        questIcon.getImage();
 
-        try {
-            var document = Jsoup.connect("https://tarkov.help/ru/trader/mechanic/quests").get();
-
-            var titleElements = document.select(".article__title");
-            titleElements.forEach(titleElement ->
-                    System.out.println(titleElement.text() + " | " + titleElement.attr("href")));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(questClient);
 
 
     }

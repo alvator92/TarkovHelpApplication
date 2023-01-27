@@ -3,10 +3,12 @@ package ru.parsing.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.parsing.configuration.JpaConfig;
+import ru.parsing.dto.Images;
 import ru.parsing.dto.QuestDtoOnce;
-import ru.parsing.repository.QuestEntityRepository;
+import ru.parsing.emun.TradersEnum;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -14,16 +16,33 @@ public class QuestController {
     @Autowired
     private JpaConfig config;
 
+    public QuestDtoOnce saveNewQuest(String questName, String questUrl) {
+        QuestDtoOnce questDtoOnce = new QuestClient().getQuestParam(questName, questUrl);
+        saveQuestToDB(questDtoOnce);
+
+        List<Images> photos = new QuestImages().getImage(questDtoOnce);
+        photos.forEach(photo -> saveImagesToDB(photo));
+        return questDtoOnce;
+    }
     public void saveQuestToDB(QuestDtoOnce questDtoOnce) {
         config.questService().save(questDtoOnce);
     }
 
-    public void saveAllQuestToDB(String traderName) {
-        QuestTradersService questTradersService = new QuestTradersService();
-        HashMap<String, String> quests = questTradersService.getListOfQuests(traderName);
-        for (Map.Entry<String, String> entry : quests.entrySet()) {
-            config.questService().save(new QuestClient().getQuestParam(entry.getKey(), entry.getValue()));
+    public void saveImagesToDB(Images images) {
+        config.photoService().save(images);
+    }
 
+    public void saveAllQuestToDB() {
+        for (TradersEnum value : TradersEnum.values()) {
+            HashMap<String, String> quests = new QuestTradersService().
+                    getListOfQuests(value.getName());
+            for (Map.Entry<String, String> entry : quests.entrySet()) {
+                saveNewQuest(entry.getKey(), entry.getValue());
+            }
         }
+    }
+
+    public QuestDtoOnce findQuestByName(String name) {
+        return config.questService().findByName(name);
     }
 }

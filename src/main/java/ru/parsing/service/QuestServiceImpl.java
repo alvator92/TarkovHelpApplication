@@ -15,4 +15,10 @@ public class QuestServiceImpl implements QuestServices {
     public void save(QuestDtoOnce quest) {
         questEntityRepository.save(quest);
     }
+
+    @Override
+    public QuestDtoOnce findByName(String name) {
+        return questEntityRepository.findByName(name);
+
+    }
 }
