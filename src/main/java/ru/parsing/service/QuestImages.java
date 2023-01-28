@@ -7,16 +7,20 @@ import org.jsoup.select.Elements;
 import ru.parsing.dto.Images;
 import ru.parsing.dto.QuestDtoOnce;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class QuestImages {
 
     private static String IMAGE_DESTINATION_FOLDER = "C:/Users/Public/Pictures";
     private List<Images> list = new ArrayList<>();
+    private Set<String> hashSet = new HashSet();
 
     public List<Images> getImage(QuestDtoOnce questDtoOnce) {
         try {
@@ -40,20 +44,15 @@ public class QuestImages {
                 log.info("");
                 //make sure to get the absolute URL using abs: prefix
                 String strImageURL = image.attr("abs:src");
-                Images photo = new Images.Builder()
-                        .withPhoto(strImageURL)
-                        .withQuest(questDtoOnce)
-                        .build();
-                list.add(photo);
-
+                hashSet.add(strImageURL);
                 //download image one by one
-                downloadImage(strImageURL);
+//                downloadImage(strImageURL);
             }
 
         } catch(IOException e) {
             e.printStackTrace();
         };
-        return list;
+        return getListFromHashSet(hashSet, questDtoOnce);
     }
 
     private static void downloadImage(String strImageURL){
@@ -90,5 +89,16 @@ public class QuestImages {
             e.printStackTrace();
         }
 
+    }
+
+    private List<Images> getListFromHashSet(Set<String> hashSet, QuestDtoOnce questDtoOnce) {
+        hashSet.forEach(url -> {
+            Images photo = new Images.Builder()
+                    .withPhoto(url)
+                    .withQuest(questDtoOnce)
+                    .build();
+            list.add(photo);
+        });
+        return list;
     }
 }

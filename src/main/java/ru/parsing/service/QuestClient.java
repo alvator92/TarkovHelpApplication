@@ -1,9 +1,11 @@
 package ru.parsing.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import ru.parsing.common.Common;
 import ru.parsing.dto.QuestDtoOnce;
 
+@Slf4j
 public class QuestClient {
     private QuestDtoOnce quest = new QuestDtoOnce();
 
@@ -14,6 +16,7 @@ public class QuestClient {
             s.append(questUrl);
             System.out.println(s);
             quest.setName(questName);
+            log.info("questName : " + questName);
             var document = Jsoup.connect( s.toString()).get();
 
             var titleElements = document.select(".quest-heading");
