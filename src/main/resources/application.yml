@@ -29,5 +29,9 @@ profileImage:
   wight: 120
   height: 120
 
+bot:
+  name: tarkov_help_bot
+  token: 6085174070:AAEibKClfbzfZ35gHnwffapIsphJuRKv65E
+
 upload:
   directory: C:/Users/Public/Pictures

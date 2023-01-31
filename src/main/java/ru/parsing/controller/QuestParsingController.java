@@ -7,13 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.parsing.dto.Images;
 import ru.parsing.dto.QuestDtoOnce;
-import ru.parsing.service.QuestClient;
 import ru.parsing.service.QuestController;
-import ru.parsing.service.QuestImages;
-
-import java.util.List;
 
 @RestController
 public class QuestParsingController {
