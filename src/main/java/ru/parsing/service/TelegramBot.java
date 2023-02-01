@@ -3,10 +3,16 @@ package ru.parsing.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
+import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.parsing.configuration.BotConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -14,8 +20,25 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final BotConfiguration botConfiguration;
 
+    static final String HELP_TEXT = "Этот бот выполнен для того, чтобы помочь тебе проходить квесты в игре EscapeFromTarkov\n\n" +
+            "Вы можете ввести следующие команды из главного меню \n\n" +
+            "Напишите /start , чтобы увидеть приветствие \n\n" +
+            "Напишите /mydata , чтобы увидеть информацию о себе \n\n" +
+            "Напишите /help , чтобы снова увидеть это сообщение";
+
     public TelegramBot(BotConfiguration botConfiguration) {
         this.botConfiguration = botConfiguration;
+        List<BotCommand> botCommandList = new ArrayList<>();
+        botCommandList.add(new BotCommand("/start", "Get a welcome message"));
+        botCommandList.add(new BotCommand("/mydata", "Get you data stored"));
+        botCommandList.add(new BotCommand("/deletedata", "Delete my data"));
+        botCommandList.add(new BotCommand("/help", "Info how to use Bot"));
+        try {
+            this.execute(new SetMyCommands(botCommandList, new BotCommandScopeDefault(), null));
+        } catch (TelegramApiException e ) {
+            log.error("Error setting bot`s command list : " + e.getMessage());
+        }
+
     }
 
     @Override
@@ -38,6 +61,10 @@ public class TelegramBot extends TelegramLongPollingBot {
             switch (messageText) {
                 case "/start" :
                     startCommandRecieved(chatId, update.getMessage().getChat().getFirstName());
+                    break;
+                case "/help" :
+                    sendMessage(chatId, HELP_TEXT);
+
                     break;
                 default:
                     sendMessage(chatId, "Sorry, command was not found");
