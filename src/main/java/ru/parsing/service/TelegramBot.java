@@ -1,5 +1,6 @@
 package ru.parsing.service;
 
+import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -77,7 +78,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                     break;
                 case "/help" :
                     sendMessage(chatId, HELP_TEXT);
-
                     break;
                 default:
                     sendMessage(chatId, "Sorry, command was not found");
@@ -109,7 +109,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     private void startCommandRecieved(long chatId, String name) {
-        String answer = "Hi, " + name + ", nice to meet you!";
+        String answer = EmojiParser.parseToUnicode("Hi, " + name + ", nice to meet you!" + ":blush:");
         sendMessage(chatId, answer);
     }
 
