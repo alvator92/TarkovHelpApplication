@@ -3,10 +3,7 @@ package ru.parsing.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import ru.parsing.service.PhotoService;
-import ru.parsing.service.PhotoServiceImpl;
-import ru.parsing.service.QuestServiceImpl;
-import ru.parsing.service.QuestServices;
+import ru.parsing.service.*;
 
 @Configuration
 @EnableJpaRepositories( basePackages = {"ru.parsing.repository"},
@@ -21,5 +18,10 @@ public class JpaConfig {
 
     @Bean("PhotoService")
     public PhotoService photoService() {return new PhotoServiceImpl();
+    }
+
+    @Bean("UserService")
+    public UserService userService() {
+        return new UserServiceImpl();
     }
 }

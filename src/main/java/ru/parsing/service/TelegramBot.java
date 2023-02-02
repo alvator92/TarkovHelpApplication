@@ -1,16 +1,22 @@
 package ru.parsing.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.parsing.configuration.BotConfiguration;
+import ru.parsing.configuration.JpaConfig;
+import ru.parsing.dto.User;
+import ru.parsing.repository.UserRepository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +24,17 @@ import java.util.List;
 @Slf4j
 public class TelegramBot extends TelegramLongPollingBot {
 
+    @Autowired
+    private JpaConfig jpaConfig;
+    @Autowired
+    private UserRepository userRepository;
+
     private final BotConfiguration botConfiguration;
 
     static final String HELP_TEXT = "Этот бот выполнен для того, чтобы помочь тебе проходить квесты в игре EscapeFromTarkov\n\n" +
             "Вы можете ввести следующие команды из главного меню \n\n" +
             "Напишите /start , чтобы увидеть приветствие \n\n" +
+            "Напишите /mydata , чтобы увидеть информацию о себе \n\n" +
             "Напишите /mydata , чтобы увидеть информацию о себе \n\n" +
             "Напишите /help , чтобы снова увидеть это сообщение";
 
@@ -60,6 +72,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
             switch (messageText) {
                 case "/start" :
+                    registerUser(update.getMessage());
                     startCommandRecieved(chatId, update.getMessage().getChat().getFirstName());
                     break;
                 case "/help" :
@@ -72,6 +85,26 @@ public class TelegramBot extends TelegramLongPollingBot {
             }
         }
 
+    }
+
+    private void registerUser(Message msg) {
+
+        if (userRepository.findById(msg.getChatId()).isEmpty()) {
+
+            var chatId = msg.getChatId();
+            var chat = msg.getChat();
+
+            User user = new User.Builder()
+                    .withChatId(chatId)
+                    .withFirstName(chat.getFirstName())
+                    .withLastName(chat.getLastName())
+                    .withUserName(chat.getUserName())
+                    .withRegisterAt(new Timestamp(System.currentTimeMillis()))
+                    .build();
+
+            userRepository.save(user);
+            log.info("User saved :" + user);
+        }
     }
 
     private void startCommandRecieved(long chatId, String name) {
