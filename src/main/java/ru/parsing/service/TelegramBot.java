@@ -89,7 +89,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private void registerUser(Message msg) {
 
-        if (userRepository.findById(msg.getChatId()).isEmpty()) {
+//        if (userRepository.findById(msg.getChatId()).isEmpty()) {
+        if (jpaConfig.userService().findById(msg.getChatId()).isEmpty()) {
 
             var chatId = msg.getChatId();
             var chat = msg.getChat();
@@ -102,7 +103,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                     .withRegisterAt(new Timestamp(System.currentTimeMillis()))
                     .build();
 
-            userRepository.save(user);
+            jpaConfig.userService().save(user);
             log.info("User saved :" + user);
         }
     }

@@ -18,10 +18,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional(readOnly = true)
-    public User getById(long id) {
+    public Optional<User> findById(long id) {
         Optional<User> userResponse =  userRepository.findById(id);
-        User user = userResponse.get();
-        return user;
+        return userResponse;
 
     }
 }
