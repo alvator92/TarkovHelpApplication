@@ -11,17 +11,23 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.parsing.common.StringConstant;
 import ru.parsing.configuration.BotConfiguration;
 import ru.parsing.configuration.JpaConfig;
 import ru.parsing.dto.User;
+import ru.parsing.emun.TradersEnum;
 import ru.parsing.repository.UserRepository;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -38,7 +44,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             "Вы можете ввести следующие команды из главного меню \n\n" +
             "Напишите /start , чтобы увидеть приветствие \n\n" +
             "Напишите /mydata , чтобы увидеть информацию о себе \n\n" +
-            "Напишите /mydata , чтобы увидеть информацию о себе \n\n" +
+            "Напишите /register , чтобы  \n\n" +
             "Напишите /help , чтобы снова увидеть это сообщение";
 
     public TelegramBot(BotConfiguration botConfiguration) {
@@ -47,6 +53,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         botCommandList.add(new BotCommand("/start", "Get a welcome message"));
         botCommandList.add(new BotCommand("/mydata", "Get you data stored"));
         botCommandList.add(new BotCommand("/deletedata", "Delete my data"));
+        botCommandList.add(new BotCommand("/register", "Registration"));
         botCommandList.add(new BotCommand("/help", "Info how to use Bot"));
         try {
             this.execute(new SetMyCommands(botCommandList, new BotCommandScopeDefault(), null));
@@ -81,6 +88,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                 case "/help" :
                     sendMessage(chatId, HELP_TEXT);
                     break;
+                case "/register" :
+                    register(chatId);
+                    break;
                 default:
                     sendMessage(chatId, "Sorry, command was not found");
 
@@ -88,6 +98,16 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
 
     }
+
+    private void register(long chatId) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText("Do you real want to register?");
+        message.setReplyMarkup(getInlineKeeBoard());
+        executionMessage(message);
+    }
+
+
 
     private void registerUser(Message msg) {
 
@@ -120,7 +140,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         message.setChatId(chatId);
         message.setText(textToSend);
         message.setReplyMarkup(getKeeBoard());
+        executionMessage(message);
 
+    }
+
+    private void executionMessage(SendMessage message) {
         try {
             execute(message);
         } catch (TelegramApiException e) {
@@ -131,29 +155,71 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private ReplyKeyboardMarkup getKeeBoard() {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-
-        List<KeyboardRow> keyboardRows = new ArrayList<>();
-
-        KeyboardRow row = new KeyboardRow();
-        row.add("Прапор");
-        row.add("Терапевт");
-        row.add("Лыжник");
-        keyboardRows.add(row);
-
-        row = new KeyboardRow();
-        row.add("Миротворец");
-        row.add("Барахольщик");
-        keyboardRows.add(row);
-
-
-        row = new KeyboardRow();
-        row.add("Механик");
-        row.add("Егерь");
-        row.add("Скупщик");
-        keyboardRows.add(row);
-
-        keyboardMarkup.setKeyboard(keyboardRows);
+        keyboardMarkup.setKeyboard(getKeyBoardRows());
         return keyboardMarkup;
 
+    }
+
+    private List<KeyboardRow> getKeyBoardRows() {
+        List<KeyboardRow> keyboardRows = new ArrayList<>();
+
+        keyboardRows.add(getFirstKeyBoardRow());
+        keyboardRows.add(getSecondKeyBoardRow());
+        keyboardRows.add(getThirdKeyBoardRow());
+
+        return keyboardRows;
+    }
+
+    private KeyboardRow getFirstKeyBoardRow() {
+        KeyboardRow row = new KeyboardRow();
+        row.add(TradersEnum.PRAPOR.getUserName());
+        row.add(TradersEnum.THERAPIST.getUserName());
+        row.add(TradersEnum.SKIER.getUserName());
+        return row;
+    }
+
+    private KeyboardRow getSecondKeyBoardRow() {
+        KeyboardRow row = new KeyboardRow();
+        row.add(TradersEnum.PEACEMAKER.getUserName());
+        row.add(TradersEnum.RAGMAN.getUserName());
+        return row;
+    }
+
+    private KeyboardRow getThirdKeyBoardRow() {
+        KeyboardRow row = new KeyboardRow();
+        row.add(TradersEnum.MECHANIC.getUserName());
+        row.add(TradersEnum.YAEGER.getUserName());
+        row.add(TradersEnum.FENCE.getUserName());
+        return row;
+    }
+
+    private InlineKeyboardMarkup getInlineKeeBoard() {
+
+        InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+
+        rowInline.add(getYesButton());
+        rowInline.add(getNoButton());
+
+        rowsInLine.add(rowInline);
+
+        markupInLine.setKeyboard(rowsInLine);
+
+        return markupInLine;
+    }
+
+    private InlineKeyboardButton getYesButton() {
+        var yesButton = new InlineKeyboardButton();
+        yesButton.setText(StringConstant.YES);
+        yesButton.setCallbackData(StringConstant.YES_BUTTON);
+        return yesButton;
+    }
+
+    private InlineKeyboardButton getNoButton() {
+        var noButton = new InlineKeyboardButton();
+        noButton.setText(StringConstant.NO);
+        noButton.setCallbackData(StringConstant.NO_BUTTON);
+        return noButton;
     }
 }
