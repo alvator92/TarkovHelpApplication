@@ -11,6 +11,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.parsing.configuration.BotConfiguration;
 import ru.parsing.configuration.JpaConfig;
@@ -117,11 +119,41 @@ public class TelegramBot extends TelegramLongPollingBot {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(textToSend);
+        message.setReplyMarkup(getKeeBoard());
+
         try {
             execute(message);
         } catch (TelegramApiException e) {
             log.error("Ошибка отправки сообщения : " + e);
             e.printStackTrace();
         }
+    }
+
+    private ReplyKeyboardMarkup getKeeBoard() {
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+
+        List<KeyboardRow> keyboardRows = new ArrayList<>();
+
+        KeyboardRow row = new KeyboardRow();
+        row.add("Прапор");
+        row.add("Терапевт");
+        row.add("Лыжник");
+        keyboardRows.add(row);
+
+        row = new KeyboardRow();
+        row.add("Миротворец");
+        row.add("Барахольщик");
+        keyboardRows.add(row);
+
+
+        row = new KeyboardRow();
+        row.add("Механик");
+        row.add("Егерь");
+        row.add("Скупщик");
+        keyboardRows.add(row);
+
+        keyboardMarkup.setKeyboard(keyboardRows);
+        return keyboardMarkup;
+
     }
 }
