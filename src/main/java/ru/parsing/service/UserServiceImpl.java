@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.parsing.dto.User;
 import ru.parsing.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService{
@@ -22,5 +23,11 @@ public class UserServiceImpl implements UserService{
         Optional<User> userResponse =  userRepository.findById(id);
         return userResponse;
 
+    }
+
+    @Override
+    public List<User> findAll() {
+        List<User> users = userRepository.findAll();
+        return users;
     }
 }

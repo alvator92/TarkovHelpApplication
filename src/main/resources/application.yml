@@ -33,6 +33,7 @@ profileImage:
 bot:
   name: tarkov_help_bot
   token: 6085174070:AAEibKClfbzfZ35gHnwffapIsphJuRKv65E
+  owner: 1074424361
 
 upload:
   directory: C:/Users/Public/Pictures
