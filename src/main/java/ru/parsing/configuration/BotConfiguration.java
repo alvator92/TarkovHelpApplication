@@ -12,4 +12,5 @@ public class BotConfiguration {
 
     String name;
     String token;
+    Long owner;
 }

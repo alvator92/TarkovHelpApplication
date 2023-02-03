@@ -16,9 +16,10 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
       hibernate.format_sql: true
+      hibernate.ddl-auto: none
       hibernate.show_slq: true
       hibernate.use_sql_comments: true
-      hibernate.physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      hibernate.physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   servlet:
     multipart:
       max-file-size: 1MB
@@ -32,6 +33,7 @@ profileImage:
 bot:
   name: tarkov_help_bot
   token: 6085174070:AAEibKClfbzfZ35gHnwffapIsphJuRKv65E
+  owner: 1074424361
 
 upload:
   directory: C:/Users/Public/Pictures
