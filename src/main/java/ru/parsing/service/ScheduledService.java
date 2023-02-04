@@ -17,7 +17,7 @@ public class ScheduledService {
     @Autowired
     private ExecutionService executionService;
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "${cron.scheduler}")
     public void sendAds() {
 
         var ads = jpaConfig.adsService().findAll();

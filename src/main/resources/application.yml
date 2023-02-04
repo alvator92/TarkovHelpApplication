@@ -37,3 +37,6 @@ bot:
 
 upload:
   directory: C:/Users/Public/Pictures
+
+cron:
+  scheduler: 0 * * * * *
