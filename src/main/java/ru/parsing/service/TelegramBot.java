@@ -107,6 +107,10 @@ public class TelegramBot extends TelegramLongPollingBot {
                 case "/register" :
                     register(chatId);
                     break;
+                case "/image" :
+                    String s = QuestImages.IMAGE_DESTINATION_FOLDER;
+                    executionService.prepareAndSendMessage(chatId, s + "/1.jpg", "image" );
+                    break;
                 default:
                     executionService.prepareAndSendMessage(chatId, StringConstant.VALIDATION_ERROR_MESSAGE);
 

@@ -18,7 +18,7 @@ import java.util.Set;
 @Slf4j
 public class QuestImages {
 
-    private static String IMAGE_DESTINATION_FOLDER = "C:/Users/Public/Pictures";
+    public static String IMAGE_DESTINATION_FOLDER = "C:/Users/Public/Pictures";
     private List<Images> list = new ArrayList<>();
     private Set<String> hashSet = new HashSet();
 
