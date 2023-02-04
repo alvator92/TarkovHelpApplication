@@ -29,9 +29,10 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Autowired
     private JpaConfig jpaConfig;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ExecutionService executionService;
 
     private final BotConfiguration botConfiguration;
 
@@ -101,13 +102,13 @@ public class TelegramBot extends TelegramLongPollingBot {
                     startCommandRecieved(chatId, update.getMessage().getChat().getFirstName());
                     break;
                 case "/help" :
-                    prepareAndSendMessage(chatId, HELP_TEXT);
+                    executionService.prepareAndSendMessage(chatId, HELP_TEXT);
                     break;
                 case "/register" :
                     register(chatId);
                     break;
                 default:
-                    prepareAndSendMessage(chatId, StringConstant.VALIDATION_ERROR_MESSAGE);
+                    executionService.prepareAndSendMessage(chatId, StringConstant.VALIDATION_ERROR_MESSAGE);
 
             }
         }
@@ -124,11 +125,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (callbackData.equals(StringConstant.YES_BUTTON)) {
             String text = "You pressed YES button";
             // Обработка сообщещний по кнопке
-            executionEditMessage(setCallbackMessage(messageId, chatId, text));
+            executionService.executionEditMessage(setCallbackMessage(messageId, chatId, text));
         } else if(callbackData.equals(StringConstant.NO_BUTTON)) {
             String text = "You pressed NO button";
             // Обработка сообщещний по кнопке
-            executionEditMessage(setCallbackMessage(messageId, chatId, text));
+            executionService.executionEditMessage(setCallbackMessage(messageId, chatId, text));
 
         }
     }
@@ -140,7 +141,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         var textTosend = EmojiParser.parseToUnicode((messageText.substring(messageText.indexOf(" "))));
         var users = userRepository.findAll();
         for (User user : users) {
-            prepareAndSendMessage(user.getChatId(), textTosend);
+            executionService.prepareAndSendMessage(user.getChatId(), textTosend);
         }
     }
 
@@ -160,7 +161,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         message.setChatId(chatId);
         message.setText("Do you real want to register?");
         message.setReplyMarkup(InlineKeeBoardService.getInlineKeeBoard());
-        executeMessage(message);
+        executionService.executeMessage(message);
     }
 
     /**
@@ -189,52 +190,7 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     private void startCommandRecieved(long chatId, String name) {
         String answer = EmojiParser.parseToUnicode("Hi, " + name + ", nice to meet you!" + ":blush:");
-        prepareAndSendStartMessage(chatId, answer);
+        executionService.prepareAndSendStartMessage(chatId, answer);
     }
 
-    /**
-     * Подготовка сообщения к отправлению
-     */
-    private void prepareAndSendMessage(long chatId, String textToSend) {
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText(textToSend);
-        executeMessage(message);
-    }
-    /**
-     * Подготовка стартового сообщения с клавиатурой к отправлению
-     */
-    private void prepareAndSendStartMessage(long chatId, String textToSend) {
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText(textToSend);
-        message.setReplyMarkup(KeeBoardService.getKeeBoard());
-        executeMessage(message);
-    }
-
-    /**
-     * Отправление сообщения
-     * @param message
-     */
-    private void executeMessage(SendMessage message) {
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            log.error("Ошибка отправки сообщения : " + e);
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Отправка сообщения из кнопки
-     * @param message
-     */
-    private void executionEditMessage(EditMessageText message) {
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            log.error("Ошибка отправки сообщения : " + e);
-            e.printStackTrace();
-        }
-    }
 }

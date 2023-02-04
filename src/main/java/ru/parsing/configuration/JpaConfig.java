@@ -24,4 +24,9 @@ public class JpaConfig {
     public UserService userService() {
         return new UserServiceImpl();
     }
+
+    @Bean("AdsService")
+    public AdsService adsService() {
+        return new AdsServiceImpl();
+    }
 }
