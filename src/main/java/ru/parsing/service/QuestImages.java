@@ -18,10 +18,8 @@ import java.io.*;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 public class QuestImages {
@@ -51,16 +49,20 @@ public class QuestImages {
 
             //Iterate images and print image attributes.
             for (Element image : images) {
-                log.info("Image Source: " + image.attr("src"));
-                log.info("Image Height: " + image.attr("height"));
-                log.info("Image Width: " + image.attr("width"));
-                log.info("Image Alt Text: " + image.attr("alt"));
-                log.info("");
-                //make sure to get the absolute URL using abs: prefix
-                String strImageURL = image.attr("abs:src");
-                hashSet.add(strImageURL);
-                //download image one by one
-                downloadImage(strImageURL);
+//                log.info("Image Source: " + image.attr("src"));
+//                log.info("Image Height: " + image.attr("height"));
+//                log.info("Image Width: " + image.attr("width"));
+//                log.info("Image Alt Text: " + image.attr("alt"));
+//                log.info("");
+                if (Objects.requireNonNull(image.parent()).hasClass("bb-image__image")){
+                    //make sure to get the absolute URL using abs: prefix
+                    String strImageURL = image.attr("abs:src");
+
+                    hashSet.add(strImageURL);
+                    //download image one by one
+//                    downloadImage(strImageURL);
+
+                }
             }
 
         } catch(IOException e) {
