@@ -1,5 +1,6 @@
 package ru.parsing.dto;
 
+import com.vdurmont.emoji.EmojiParser;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -57,15 +58,14 @@ public class QuestDtoOnce implements Serializable {
     private List<Images> photos;
 
 
-//    public String toString() {
-//        return "ДЛЯ_КВЕСТА : " + name + "\n" +
-//                "ОПИСАНИЕ_КВЕСТА : " + description + "\n" +
-//                "НЕОБХОДИМО : " + goal + "\n" +
-//                "В_НАГРАДУ : " + award + "\n" +
-//                "ДЛЯ_ВЫПОЛНЕНИЯ_НАДО : " + complete + "\n" +
-//                "ТЕБЕ_ПРИГОДИТСЯ : " + necessary + "\n" +
-//                "СПИСОК_ИЗОБРАЖЕНИЙ : {" +  photos.stream().iterator().next().toString() + "}";
-//     }
+    public String toString() {
+        return EmojiParser.parseToUnicode("ДЛЯ_КВЕСТА : " + name + ":blush:" + "\n\n" +
+                "ОПИСАНИЕ_КВЕСТА : " + description + ":smirk:" + "\n\n" +
+                "НЕОБХОДИМО : " + goal + ":key:" + "\n\n" +
+                "В_НАГРАДУ : " + award + ":sunglasses:" + "\n\n" +
+                "КАК_ВЫПОЛНИТЬ_КВЕСТ : " + complete + ":heavy_check_mark:" + "\n\n" +
+                "ТЕБЕ_ПРИГОДИТСЯ : " + necessary + ":100:" + "\n\n");
+     }
 
      public static class Builder {
         private QuestDtoOnce quest;

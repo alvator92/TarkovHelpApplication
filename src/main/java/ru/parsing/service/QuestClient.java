@@ -38,7 +38,7 @@ public class QuestClient {
             if (!titleElements5.isEmpty()) {
                 quest.setNecessary(titleElements5.select(".item-name").text());
             }else {
-                quest.setNecessary("Придётся побегать");
+                quest.setNecessary("Терпение и выдержка, для того чтобы хорошенько побегать!");
             }
 
             // ссылка на квест

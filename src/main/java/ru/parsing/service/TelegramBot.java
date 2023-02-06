@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.parsing.common.StringConstant;
 import ru.parsing.configuration.BotConfiguration;
 import ru.parsing.configuration.JpaConfig;
+import ru.parsing.dto.QuestDtoOnce;
 import ru.parsing.dto.User;
 import ru.parsing.repository.UserRepository;
 
@@ -33,6 +34,8 @@ public class TelegramBot extends TelegramLongPollingBot {
     private UserRepository userRepository;
     @Autowired
     private ExecutionService executionService;
+    @Autowired
+    private FindQuestService findQuestService;
 
     private final BotConfiguration botConfiguration;
 
@@ -40,6 +43,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             "Вы можете ввести следующие команды из главного меню \n\n" +
             "Напишите /start , чтобы увидеть приветствие \n\n" +
             "Напишите /mydata , чтобы увидеть информацию о себе \n\n" +
+            "Напишите /find , чтобы найти нужный квест \n\n" +
             "Напишите /register , чтобы  \n\n" +
             "Напишите /help , чтобы снова увидеть это сообщение";
 
@@ -51,7 +55,8 @@ public class TelegramBot extends TelegramLongPollingBot {
         List<BotCommand> botCommandList = new ArrayList<>();
         botCommandList.add(new BotCommand("/start", "Get a welcome message"));
         botCommandList.add(new BotCommand("/mydata", "Get you data stored"));
-        botCommandList.add(new BotCommand("/deletedata", "Delete my data"));
+        botCommandList.add(new BotCommand("/find", "Find quest"));
+        botCommandList.add(new BotCommand("/send", "Send meassage"));
         botCommandList.add(new BotCommand("/register", "Registration"));
         botCommandList.add(new BotCommand("/help", "Info how to use Bot"));
         try {
@@ -94,6 +99,9 @@ public class TelegramBot extends TelegramLongPollingBot {
         // отправка сообщений всем пользователям от админа
         if (messageText.contains("/send") && chatId == botConfiguration.getOwner()) {
             sendMessageToUsersFromOwner(messageText);
+        } else if (messageText.contains("/find")) {
+            var textToSend = messageText.substring(messageText.indexOf(" ")).trim();
+            findQuestService.findQuestByName(chatId, textToSend);
         } else {
             switch (messageText) {
                 case "/start" :

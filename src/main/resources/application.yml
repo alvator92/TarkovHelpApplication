@@ -36,7 +36,7 @@ bot:
   owner: 1074424361
 
 upload:
-  directory: C:/Users/Public/Pictures
+  directory: 'upload'
 
 cron:
-  scheduler: 0 * * * * *
+  scheduler: 0 1 * * * *

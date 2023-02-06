@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 @Component
 @Slf4j
@@ -47,6 +48,16 @@ public class ExecutionService {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(chatId);
+        sendPhoto.setPhoto(inputFile);
+        executeMessage(sendPhoto);
+
+    }
+
+    protected void prepareAndSendMessage(long chatId, InputStream targetStream, String imageCaption) {
+        InputFile inputFile;
+        inputFile = new InputFile(targetStream, imageCaption);
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         sendPhoto.setPhoto(inputFile);

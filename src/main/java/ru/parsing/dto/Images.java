@@ -16,6 +16,10 @@ public class Images {
 
     @Column(name = "photo")
     private String photo;
+
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "quest_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "FK_quest_id"))
@@ -35,6 +39,11 @@ public class Images {
 
         public Builder withQuest(QuestDtoOnce var) {
             images.quest = var;
+            return this;
+        }
+
+        public Builder withImage(byte[] var) {
+            images.image = var;
             return this;
         }
 

@@ -75,6 +75,11 @@ databaseChangeLog:
                     nullable: false
                   name: photo
                   type: TEXT
+              - column:
+                  constraints:
+                    nullable: true
+                  name: image
+                  type: BLOB
             tableName: photos
         - createIndex:
             columns:
