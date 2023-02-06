@@ -1,24 +1,27 @@
 package ru.parsing.service;
 
-import liquibase.pro.packaged.A;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.parsing.dto.QuestDtoOnce;
-import ru.parsing.repository.QuestEntityRepository;
+import ru.parsing.repository.QuestRepository;
 
 public class QuestServiceImpl implements QuestServices {
     @Autowired
-    private QuestEntityRepository questEntityRepository;
+    private QuestRepository questRepository;
 
     @Override
     public void save(QuestDtoOnce quest) {
-        questEntityRepository.save(quest);
+        questRepository.save(quest);
     }
 
+    // @Transactional использовал чтобы избавиться от ошибки LazyInitializationException
+    // quest.getPhotos().iterator() для того чтобы достать все значения
     @Override
+    @Transactional
     public QuestDtoOnce findByName(String name) {
-        return questEntityRepository.findByName(name);
+        QuestDtoOnce quest = questRepository.findByName(name);
+        quest.getPhotos().iterator();
+        return quest;
 
     }
 }

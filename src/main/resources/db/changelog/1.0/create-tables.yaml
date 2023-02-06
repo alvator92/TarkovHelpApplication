@@ -75,6 +75,11 @@ databaseChangeLog:
                     nullable: false
                   name: photo
                   type: TEXT
+              - column:
+                  constraints:
+                    nullable: true
+                  name: image
+                  type: BLOB
             tableName: photos
         - createIndex:
             columns:
@@ -126,3 +131,22 @@ databaseChangeLog:
                   name: registerAt
                   type: TIMESTAMP
             tableName: users
+  - changeSet:
+      id: 1623004979170-5
+      author: Alvator
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    autoIncrement: true
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: advertise
+                  type: TEXT
+            tableName: ads_table

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.parsing.dto.QuestDtoOnce;
 
 @Repository
-public interface QuestEntityRepository extends JpaRepository<QuestDtoOnce, Long> {
+public interface QuestRepository extends JpaRepository<QuestDtoOnce, Long> {
 
     @Query("SELECT q FROM QuestDtoOnce q WHERE q.name = :name")
     QuestDtoOnce findByName(@Param("name") String name);

@@ -1,15 +1,23 @@
 package ru.parsing.service;
 
+import com.google.common.io.ByteStreams;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 import ru.parsing.dto.Images;
 import ru.parsing.dto.QuestDtoOnce;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,9 +26,15 @@ import java.util.Set;
 @Slf4j
 public class QuestImages {
 
-    private static String IMAGE_DESTINATION_FOLDER = "C:/Users/Public/Pictures";
+    public static String IMAGE_DESTINATION_FOLDER = "upload";
     private List<Images> list = new ArrayList<>();
     private Set<String> hashSet = new HashSet();
+
+    @Value("${upload.directory}")
+    private static String directory;
+
+    @Value("${profileImage.type}")
+    private String imageType;
 
     public List<Images> getImage(QuestDtoOnce questDtoOnce) {
         try {
@@ -46,7 +60,7 @@ public class QuestImages {
                 String strImageURL = image.attr("abs:src");
                 hashSet.add(strImageURL);
                 //download image one by one
-//                downloadImage(strImageURL);
+                downloadImage(strImageURL);
             }
 
         } catch(IOException e) {
@@ -55,7 +69,7 @@ public class QuestImages {
         return getListFromHashSet(hashSet, questDtoOnce);
     }
 
-    private static void downloadImage(String strImageURL){
+    private void downloadImage(String strImageURL){
 
         //get file name from image path
         String strImageName =
@@ -81,6 +95,7 @@ public class QuestImages {
             }
 
             //close the stream
+            in.close();
             os.close();
 
             System.out.println("Image saved");
@@ -93,10 +108,16 @@ public class QuestImages {
 
     private List<Images> getListFromHashSet(Set<String> hashSet, QuestDtoOnce questDtoOnce) {
         hashSet.forEach(url -> {
-            Images photo = new Images.Builder()
-                    .withPhoto(url)
-                    .withQuest(questDtoOnce)
-                    .build();
+            Images photo = null;
+            try {
+                photo = new Images.Builder()
+                        .withPhoto(url)
+                        .withQuest(questDtoOnce)
+                        .withImage(IOUtils.toByteArray(new URL(url).openStream()))
+                        .build();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             list.add(photo);
         });
         return list;
