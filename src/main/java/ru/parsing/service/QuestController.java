@@ -15,13 +15,12 @@ import java.util.Map;
 public class QuestController {
     @Autowired
     private JpaConfig config;
-
-    public QuestDtoOnce saveNewQuest(String questName, String questUrl) {
-        QuestDtoOnce questDtoOnce = new QuestClient().getQuestParam(questName, questUrl);
+    public QuestDtoOnce saveNewQuest(String questName, String questUrl, String trader) {
+        QuestDtoOnce questDtoOnce = new QuestClient().getQuestParam(questName, questUrl, trader);
         saveQuestToDB(questDtoOnce);
 
         List<Images> photos = new QuestImages().getImage(questDtoOnce);
-        photos.forEach(photo -> saveImagesToDB(photo));
+        photos.forEach(this::saveImagesToDB);
         return questDtoOnce;
     }
     public void saveQuestToDB(QuestDtoOnce questDtoOnce) {
@@ -37,7 +36,7 @@ public class QuestController {
             HashMap<String, String> quests = new QuestTradersService().
                     getListOfQuests(value.getName());
             for (Map.Entry<String, String> entry : quests.entrySet()) {
-                saveNewQuest(entry.getKey(), entry.getValue());
+                saveNewQuest(entry.getKey(), entry.getValue(), value.getUserName());
             }
         }
     }

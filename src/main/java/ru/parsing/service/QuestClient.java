@@ -9,7 +9,7 @@ import ru.parsing.dto.QuestDtoOnce;
 public class QuestClient {
     private QuestDtoOnce quest = new QuestDtoOnce();
 
-    public QuestDtoOnce getQuestParam(String questName, String questUrl) {
+    public QuestDtoOnce getQuestParam(String questName, String questUrl, String trader) {
         try {
             StringBuilder s = new StringBuilder();
             s.append("https://tarkov.help");
@@ -44,7 +44,7 @@ public class QuestClient {
             // ссылка на квест
             quest.setUrl(questUrl);
             // связь с таблицей photos
-            quest.setQuest_id(Common.getRandomNumber(5));
+            quest.setTrader(trader);
             System.out.println(quest);
 
         } catch (Exception e) {

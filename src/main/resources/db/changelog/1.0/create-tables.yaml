@@ -48,9 +48,8 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                    unique: true
-                  name: quest_id
-                  type: INT
+                  name: trader
+                  type: TEXT
             tableName: quests
   - changeSet:
       id: 1623004979170-3

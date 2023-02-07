@@ -51,8 +51,8 @@ public class QuestDtoOnce implements Serializable {
     @Column(name = "url")
     private String url;
 
-    @Column(name = "quest_id")
-    private int quest_id;
+    @Column(name = "trader")
+    private String trader;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "quest", fetch = FetchType.LAZY)
     private List<Images> photos;
@@ -102,6 +102,11 @@ public class QuestDtoOnce implements Serializable {
         }
         public Builder withUrl(String var) {
             quest.url = var;
+            return this;
+        }
+
+        public Builder withTrader(String var) {
+            quest.trader = var;
             return this;
         }
 

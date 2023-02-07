@@ -1,5 +1,6 @@
 package ru.parsing.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,18 +12,20 @@ import ru.parsing.dto.QuestDtoOnce;
 import ru.parsing.service.QuestController;
 
 @RestController
+@Slf4j
 public class QuestParsingController {
     @Autowired
     private QuestController questController;
 
     @RequestMapping(value = "/save")
     ResponseEntity<QuestDtoOnce> Response(@RequestParam(value = "questName") String questName,
-                                    @RequestParam(value = "questUrl") String questUrl) {
+                                    @RequestParam(value = "questUrl") String questUrl,
+                                    @RequestParam(value = "trader") String trader) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-type","application/json; charset=utf-8");
-        System.out.println(questName);
-        System.out.println(questUrl);
-        return new ResponseEntity<>(questController.saveNewQuest(questName, questUrl),httpHeaders, HttpStatus.OK);
+        log.info(questName);
+        log.info(questUrl);
+        return new ResponseEntity<>(questController.saveNewQuest(questName, questUrl, trader),httpHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/save/all")
@@ -39,7 +42,7 @@ public class QuestParsingController {
     ResponseEntity<QuestDtoOnce> findQuestByName(@RequestParam(value = "questName") String name) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-type","application/json; charset=utf-8");
-        System.out.println(name);
+        log.info(name);
         QuestDtoOnce quest = questController.findQuestByName(name);
 
         return new ResponseEntity<>(quest,httpHeaders, HttpStatus.OK);
