@@ -31,6 +31,7 @@ public class ExecutionService {
     }
     /**
      * Подготовка стартового сообщения с клавиатурой к отправлению
+     * TODO переделать логику показа клаиватуры
      */
     protected void prepareAndSendStartMessage(long chatId, String textToSend) {
         SendMessage message = new SendMessage();

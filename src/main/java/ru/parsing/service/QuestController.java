@@ -44,4 +44,8 @@ public class QuestController {
     public QuestDtoOnce findQuestByName(String name) {
         return config.questService().findByName(name);
     }
+
+    public List<String> findQuestsNameByTrader(String traderName) {
+        return config.questService().findQuestsNameByTrader(traderName);
+    }
 }

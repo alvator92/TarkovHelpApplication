@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.parsing.dto.QuestDtoOnce;
 import ru.parsing.service.QuestController;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 public class QuestParsingController {
@@ -46,5 +48,15 @@ public class QuestParsingController {
         QuestDtoOnce quest = questController.findQuestByName(name);
 
         return new ResponseEntity<>(quest,httpHeaders, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/listOfQuest")
+    ResponseEntity<List<String>> findQuestByTrader(@RequestParam(value = "trader") String name) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-type","application/json; charset=utf-8");
+        log.info(name);
+
+
+        return new ResponseEntity<>(questController.findQuestsNameByTrader(name),httpHeaders, HttpStatus.OK);
     }
 }

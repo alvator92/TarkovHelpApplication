@@ -6,10 +6,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.parsing.dto.QuestDtoOnce;
 
+import java.util.List;
+
 @Repository
 public interface QuestRepository extends JpaRepository<QuestDtoOnce, Long> {
 
     @Query("SELECT q FROM QuestDtoOnce q WHERE q.name = :name")
     QuestDtoOnce findByName(@Param("name") String name);
+
+    @Query("SELECT q.name FROM QuestDtoOnce q WHERE q.trader = :trader order by q.name")
+    List<String> findQuestsNameByTrader(@Param("trader") String trader);
 
 }

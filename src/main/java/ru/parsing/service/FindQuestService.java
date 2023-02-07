@@ -19,12 +19,10 @@ public class FindQuestService {
     @Autowired
     private ExecutionService executionService;
 
-    public QuestDtoOnce findQuestByName(long chatId, String questName) {
+    public void findQuestByName(long chatId, String questName) {
         QuestDtoOnce quest = questController.findQuestByName(questName);
         executionService.prepareAndSendMessage(chatId, quest.toString());
         getImageFromQuest(chatId, quest);
-
-        return quest;
     }
 
     public void getImageFromQuest(long chatId, QuestDtoOnce questDtoOnce) {
