@@ -40,10 +40,10 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     static final String HELP_TEXT = "Этот бот выполнен для того, чтобы помочь тебе проходить квесты в игре EscapeFromTarkov\n\n" +
             "Вы можете ввести следующие команды из главного меню \n\n" +
-            "Напишите /start , чтобы увидеть приветствие \n\n" +
-            "Напишите /find , чтобы найти нужный квест введите(через пробел) \n\n" +
-            "Напишите /quests , чтобы увидеть список торговцев и далее найти нужный квест \n\n" +
-            "Напишите /help , чтобы снова увидеть это сообщение";
+            "/start - чтобы увидеть приветствие \n\n" +
+            "/find quest_name - чтобы найти нужный квест введите(через пробел) \n\n" +
+            "/quests - чтобы увидеть список торговцев и далее найти нужный квест \n\n" +
+            "/help - чтобы снова увидеть это сообщение";
 
     /**
      * Инициализация главного меню
@@ -53,8 +53,8 @@ public class TelegramBot extends TelegramLongPollingBot {
         List<BotCommand> botCommandList = new ArrayList<>();
         botCommandList.add(new BotCommand("/start", "Привет Бот!"));
         botCommandList.add(new BotCommand("/quests", "Выберите искомый квест"));
-        botCommandList.add(new BotCommand("/find", "Либо введите -> /find полное_имя_квеста"));
-        botCommandList.add(new BotCommand("/help", "Как пользоваться ботом"));
+        botCommandList.add(new BotCommand("/find", "Либо введите - /find quest_name"));
+        botCommandList.add(new BotCommand("/help", "Как пользоваться ботом?"));
         try {
             this.execute(new SetMyCommands(botCommandList, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException e ) {
